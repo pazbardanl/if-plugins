@@ -9,7 +9,7 @@ import {RandIntGenerator} from './helpers/rand-int-generator';
 import {Generator} from './interfaces/index';
 import {ObservationParams} from './types';
 import dayjs = require('dayjs');
-import 'dayjs/plugin/timezone'
+import 'dayjs/plugin/timezone';
 
 const {InputValidationError} = ERRORS;
 
