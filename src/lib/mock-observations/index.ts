@@ -1,7 +1,3 @@
-import * as dayjs from 'dayjs';
-import * as utc from 'dayjs/plugin/utc';
-import * as timezone from 'dayjs/plugin/timezone';
-
 import {buildErrorMessage} from '../../util/helpers';
 import {ERRORS} from '../../util/errors';
 
@@ -12,9 +8,8 @@ import {CommonGenerator} from './helpers/common-generator';
 import {RandIntGenerator} from './helpers/rand-int-generator';
 import {Generator} from './interfaces/index';
 import {ObservationParams} from './types';
-
-dayjs.extend(utc);
-dayjs.extend(timezone);
+import dayjs = require('dayjs');
+import 'dayjs/plugin/timezone'
 
 const {InputValidationError} = ERRORS;
 
