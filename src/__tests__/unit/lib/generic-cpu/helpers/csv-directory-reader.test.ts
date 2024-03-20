@@ -1,9 +1,9 @@
-import {CsvDirectoryReader} from '../../../../../lib/generic-cpu/helpers/csv-directory-reader';
+import {DirectoryReader} from '../../../../../lib/generic-cpu/helpers/directory-reader';
 
 describe('lib/generic-cpu/helpers/csv-directory-reader: ', () => {
   describe('sanity: ', () => {
     it('sanity', () => {
-      const csvReaderUnderTest: CsvDirectoryReader = new CsvDirectoryReader(
+      const csvReaderUnderTest: DirectoryReader = new DirectoryReader(
         __dirname
       );
       const actualMap = csvReaderUnderTest.read();

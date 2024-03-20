@@ -1,4 +1,4 @@
-import {CsvPowerCurveLookupParser} from '../../../../../lib/generic-cpu/helpers/CsvPowerCurveLookupParser';
+import {CsvPowerCurveLookupParser} from '../../../../../lib/generic-cpu/helpers/csv-power-curve-lookup-parser';
 import {PowerCurveLookup} from '../../../../../lib/generic-cpu/types';
 
 describe('lib/generic-cpu/helpers/csv-power-curve-lookup-parser: ', () => {

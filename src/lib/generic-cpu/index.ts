@@ -2,8 +2,8 @@ import {PluginInterface} from '../../interfaces';
 import {ConfigParams, PluginParams} from '../../types/common';
 import {ERRORS} from '../../util/errors';
 import {buildErrorMessage} from '../../util/helpers';
-import {CsvDirectoryReader} from './helpers/csv-directory-reader';
-import {CsvPowerCurveLookupParser} from './helpers/CsvPowerCurveLookupParser';
+import {DirectoryReader} from './helpers/directory-reader';
+import {CsvPowerCurveLookupParser} from './helpers/csv-power-curve-lookup-parser';
 import {PowerCurveLookupProvider} from './helpers/PowerCurveLookupProvider';
 import {DirectoryReaderInterface} from './interfaces/directory-reader-interface';
 import {PowerCurveLookupParserInterface} from './interfaces/PowerCurveLookupParserInterface';
@@ -11,7 +11,7 @@ const {InputValidationError} = ERRORS;
 
 export const GenericCPU = (globalConfig: ConfigParams): PluginInterface => {
   const DOOR_DIR_PATH_AT_NAME = 'root-dir-path';
-  const errorBuilder = buildErrorMessage('MockObservations');
+  const errorBuilder = buildErrorMessage('GenericCPU');
   let powerCurveLookupProvider: PowerCurveLookupProvider;
 
   const metadata = {
@@ -19,11 +19,11 @@ export const GenericCPU = (globalConfig: ConfigParams): PluginInterface => {
   };
 
   /**
-   * Generate sets of mocked observations based on config.
+   * TODO PB - doc
    */
   const execute = async (inputs: PluginParams[]) => {
     powerCurveLookupProvider = createPowerCurveLookupProvider(globalConfig);
-    powerCurveLookupProvider.getPowerCurveLookup('FakeProd');
+    powerCurveLookupProvider.getPowerCurveLookup('testLookup1');
     return inputs;
   };
 
@@ -38,7 +38,7 @@ export const GenericCPU = (globalConfig: ConfigParams): PluginInterface => {
       );
     }
     const powerCurvesRootDirPath = params[DOOR_DIR_PATH_AT_NAME];
-    const directoryReader: DirectoryReaderInterface = new CsvDirectoryReader(
+    const directoryReader: DirectoryReaderInterface = new DirectoryReader(
       powerCurvesRootDirPath,
       '.csv'
     );
