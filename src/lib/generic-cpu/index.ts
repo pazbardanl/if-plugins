@@ -2,10 +2,10 @@ import {PluginInterface} from '../../interfaces';
 import {ConfigParams, PluginParams} from '../../types/common';
 import {ERRORS} from '../../util/errors';
 import {buildErrorMessage} from '../../util/helpers';
-import {CsvDirectoryReader} from './helpers/CsvDirectoryReader';
+import {CsvDirectoryReader} from './helpers/csv-directory-reader';
 import {CsvPowerCurveLookupParser} from './helpers/CsvPowerCurveLookupParser';
 import {PowerCurveLookupProvider} from './helpers/PowerCurveLookupProvider';
-import {DirectoryReaderInterface} from './interfaces/DirectoryReaderInterface';
+import {DirectoryReaderInterface} from './interfaces/directory-reader-interface';
 import {PowerCurveLookupParserInterface} from './interfaces/PowerCurveLookupParserInterface';
 const {InputValidationError} = ERRORS;
 

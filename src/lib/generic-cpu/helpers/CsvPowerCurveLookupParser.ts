@@ -1,53 +1,47 @@
-import {parse} from 'csv-parse';
 import {PowerCurveLookupParserInterface} from '../interfaces/PowerCurveLookupParserInterface';
 import {PowerCurveLookup} from '../types';
 
+// TODO PB -- clean code and remove exessive comments
 export class CsvPowerCurveLookupParser
   implements PowerCurveLookupParserInterface
 {
-  fromString(stringData: string): PowerCurveLookup {
-    const records: string[][] = [];
+  fromString(csvString: string, name: string): PowerCurveLookup {
+    const rows = csvString
+      .trim()
+      .split('\n')
+      .map(row => row.trim());
+    const headers = rows
+      .shift()!
+      .split(',')
+      .map(header => header.trim());
     const keyNameToSeries = new Map<string, number[]>();
-    let valueSeries: number[] = [];
 
-    // Parse the CSV data
-    const parser = parse(stringData, {
-      cast: true,
-      from_line: 2, // Assuming the first line contains headers and we skip it
+    // Exclude the last column (value column) when populating keyNameToSeries
+    headers.slice(0, -1).forEach(header => {
+      keyNameToSeries.set(header, []);
     });
 
-    parser
-      .on('readable', () => {
-        let record;
-        while ((record = parser.read())) {
-          // Using parser.read() instead of this.read()
-          records.push(record);
-        }
-      })
-      .on('end', () => {
-        // Extract keys and values from CSV records
-        const keys = Object.keys(records[0]).slice(0, -1); // Exclude the last column (value column)
+    const valueName = headers[headers.length - 1];
+    const valueSeries: number[] = [];
 
-        keys.forEach((key, index) => {
-          const series = records.map(record => parseFloat(record[index]));
-          keyNameToSeries.set(key, series);
+    rows.forEach(row => {
+      const values = row.split(',').map(value => parseFloat(value.trim()));
+
+      if (values.length === headers.length) {
+        headers.slice(0, -1).forEach((header, index) => {
+          const series = keyNameToSeries.get(header)!;
+          series.push(values[index]);
         });
 
-        valueSeries = records.map(record => parseFloat(record[keys.length])); // Last column (value column)
+        valueSeries.push(values[values.length - 1]); // Push the value from the last column
+      }
+    });
 
-        // Create and return the PowerCurveLookup object
-        const powerCurveLookup: PowerCurveLookup = {
-          name: 'PowerCurveLookup', // You can set any name you want
-          keyNameToSeries: keyNameToSeries,
-          valueName: keys[keys.length - 1], // Name of the last column (value column)
-          valueSeries: valueSeries,
-        };
-
-        console.log(powerCurveLookup); // Output the parsed PowerCurveLookup object
-        return powerCurveLookup;
-      });
-
-    // You need to return something here, perhaps a placeholder or undefined.
-    return {} as PowerCurveLookup;
+    return {
+      name: name,
+      keyNameToSeries: keyNameToSeries,
+      valueName: valueName,
+      valueSeries: valueSeries,
+    };
   }
 }

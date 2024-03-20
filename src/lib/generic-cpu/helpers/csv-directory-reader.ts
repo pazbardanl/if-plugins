@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import {DirectoryReaderInterface} from '../interfaces/DirectoryReaderInterface';
+import {DirectoryReaderInterface} from '../interfaces/directory-reader-interface';
 
 export class CsvDirectoryReader implements DirectoryReaderInterface {
   private directoryPath: string;

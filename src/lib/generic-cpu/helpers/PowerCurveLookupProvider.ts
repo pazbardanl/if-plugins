@@ -1,6 +1,6 @@
 import {ERRORS} from '../../../util/errors';
 import {buildErrorMessage} from '../../../util/helpers';
-import {DirectoryReaderInterface} from '../interfaces/DirectoryReaderInterface';
+import {DirectoryReaderInterface} from '../interfaces/directory-reader-interface';
 import {PowerCurveLookupParserInterface} from '../interfaces/PowerCurveLookupParserInterface';
 import {PowerCurveLookup} from '../types';
 const {InputValidationError} = ERRORS;
@@ -42,7 +42,10 @@ export class PowerCurveLookupProvider {
       powerCurveLookupRawString,
     ] of powerCurveLookupNameToRawString.entries()) {
       const powerCurveLookup: PowerCurveLookup =
-        this.powerLookupTableParser.fromString(powerCurveLookupRawString);
+        this.powerLookupTableParser.fromString(
+          powerCurveLookupRawString,
+          powerCurveLookupName
+        );
       this.nameToPowerCurveLookup.set(powerCurveLookupName, powerCurveLookup);
     }
   }
