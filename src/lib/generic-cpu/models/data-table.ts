@@ -30,8 +30,6 @@ export class DataTable {
           data[rowIndex][colIndex]
         );
       }
-      console.log(`header = ${header}`);
-      console.log(`colData = ${colData}`);
       dataMap.set(header, colData);
     }
     return dataMap;
