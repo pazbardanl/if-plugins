@@ -1,4 +1,4 @@
-import {LinearInterpolator} from '../../../lib/generic-cpu/helpers/linear-interpolator';
+import {LinearInterpolator} from '../../../../../lib/generic-cpu/helpers/linear-interpolator';
 
 describe('lib/generic-cpu/helpers:', () => {
   describe('LinearInterpolator', () => {

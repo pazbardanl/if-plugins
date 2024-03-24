@@ -1,4 +1,4 @@
-import {CsvDirectoryReader} from '../../../lib/generic-cpu/helpers/csv-directory-reader';
+import {CsvDirectoryReader} from '../../../../../lib/generic-cpu/helpers/csv-directory-reader';
 
 describe('lib/generic-cpu/helpers:', () => {
   describe('CsvDirectoryReader', () => {

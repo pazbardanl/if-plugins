@@ -1,4 +1,4 @@
-import {DataTable} from '../../../lib/generic-cpu/models/data-table';
+import {DataTable} from '../../../../../lib/generic-cpu/models/data-table';
 
 describe('lib/generic-cpu/models:', () => {
   describe('DataTable', () => {
