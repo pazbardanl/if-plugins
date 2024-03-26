@@ -1,4 +1,5 @@
-// TODO PB -- IDF stadard errors
+import {ERRORS} from '../../../util/errors';
+const {InputValidationError} = ERRORS;
 
 export class LinearInterpolator {
   interpolate(
@@ -6,7 +7,9 @@ export class LinearInterpolator {
     lookupSeries: number[],
     valueSeries: number[]
   ): number {
-    // TODO PB -- validate all values in inputs are positive
+    this.validatePositiveNumbers([lookupKey], 'lookupKey');
+    this.validatePositiveNumbers(lookupSeries, 'lookupSeries');
+    this.validatePositiveNumbers(valueSeries, 'valueSeries');
     let x0: number;
     let x1: number;
     let y0: number;
@@ -41,8 +44,16 @@ export class LinearInterpolator {
         return [i, i + 1];
       }
     }
-    throw new Error(
+    throw new InputValidationError(
       `Failed to find boundary indexes for ${lookupValue} in ${lookupSeries}`
     );
+  }
+
+  private validatePositiveNumbers(numbersArray: number[], arrayName: string) {
+    if (numbersArray.some(num => num < 0)) {
+      throw new InputValidationError(
+        `${arrayName} contains negative value(s): ${numbersArray}`
+      );
+    }
   }
 }

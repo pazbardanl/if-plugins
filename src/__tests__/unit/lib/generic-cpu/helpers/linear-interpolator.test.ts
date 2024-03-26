@@ -6,6 +6,8 @@ describe('lib/generic-cpu/helpers:', () => {
       const linearnterpolator: LinearInterpolator = new LinearInterpolator();
       const lookupSeries = [10, 20, 40, 100];
       const valueSeries = [1000, 2000, 4000, 10000];
+      const invalidLookupSeries = [10, -20, 40, 100];
+      const invalidValueSeries = [1000, 2000, -4000, 10000];
       it('out of range low', () => {
         expect(
           linearnterpolator.interpolate(5, lookupSeries, valueSeries)
@@ -30,6 +32,29 @@ describe('lib/generic-cpu/helpers:', () => {
         expect(
           linearnterpolator.interpolate(20.01, lookupSeries, valueSeries)
         ).toBeCloseTo(2001);
+      });
+      it('negative lookup key', () => {
+        const interpolateCall = () =>
+          linearnterpolator.interpolate(-20.01, lookupSeries, valueSeries);
+        expect(interpolateCall).toThrow(Error);
+      });
+      it('negative item in lookup series', () => {
+        const interpolateCall = () =>
+          linearnterpolator.interpolate(
+            20.01,
+            invalidLookupSeries,
+            valueSeries
+          );
+        expect(interpolateCall).toThrow(Error);
+      });
+      it('negative item in value series', () => {
+        const interpolateCall = () =>
+          linearnterpolator.interpolate(
+            20.01,
+            lookupSeries,
+            invalidValueSeries
+          );
+        expect(interpolateCall).toThrow(Error);
       });
     });
   });

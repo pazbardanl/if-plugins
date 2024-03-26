@@ -10,7 +10,8 @@ export const GenericCPU = (globalConfig: ConfigParams): PluginInterface => {
   };
 
   /**
-   * TODO PB - doc
+   * Calculate CPU energy consumption based on the processor in use and measured CPU utilization values.
+   * Utilize power curves under the hood
    */
   const execute = async (inputs: PluginParams[]) => {
     const powerCurvesRootDir = globalConfig['power-curves-root-dir'];

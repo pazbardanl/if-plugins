@@ -1,4 +1,5 @@
-// TODO PB -- clean code
+import {ERRORS} from '../../../util/errors';
+const {InputValidationError} = ERRORS;
 
 import {DataTable} from '../models/data-table';
 import {CsvDirectoryReader} from './csv-directory-reader';
@@ -26,10 +27,8 @@ export class PowerCalculator {
   }
 
   calculate(cpuUtil: number, processorName: string) {
-    const powerCurveDataTable = this.prodNameToDataTable.get(processorName);
-    if (powerCurveDataTable === undefined) {
-      throw new Error(`no power curve available for ${processorName}`);
-    }
+    const powerCurveDataTable =
+      this.getPowerCurveDataTableOrThrowError(processorName);
     const cpuUtilSeries = powerCurveDataTable.getColumnData(
       this.CPU_UTIL_COL_NAME
     );
@@ -47,20 +46,11 @@ export class PowerCalculator {
     physicalProcessorName: string,
     simulatedProcessorName: string
   ) {
-    const physicalPowerCurveDataTable = this.prodNameToDataTable.get(
+    const physicalPowerCurveDataTable = this.getPowerCurveDataTableOrThrowError(
       physicalProcessorName
     );
-    if (physicalPowerCurveDataTable === undefined) {
-      throw new Error(`no power curve available for ${physicalProcessorName}`);
-    }
-    const simulatedPowerCurveDataTable = this.prodNameToDataTable.get(
-      simulatedProcessorName
-    );
-    if (simulatedPowerCurveDataTable === undefined) {
-      throw new Error(
-        `no power curve available for ${simulatedPowerCurveDataTable}`
-      );
-    }
+    const simulatedPowerCurveDataTable =
+      this.getPowerCurveDataTableOrThrowError(simulatedProcessorName);
     // interpolate TP
     const physicalThrouputSeries = physicalPowerCurveDataTable.getColumnData(
       this.THROUGHPUT_COL_NAME
@@ -112,5 +102,15 @@ export class PowerCalculator {
       }
     }
     return prodNameToDataTable;
+  }
+
+  private getPowerCurveDataTableOrThrowError(prodName: string): DataTable {
+    const powerCurveDataTable = this.prodNameToDataTable.get(prodName);
+    if (powerCurveDataTable === undefined) {
+      throw new InputValidationError(
+        `no power curve available for ${prodName}`
+      );
+    }
+    return powerCurveDataTable;
   }
 }
