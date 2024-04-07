@@ -1,0 +1,4 @@
+CPU_perc,Throughput_reqPerSec,POWER_W
+0,0,70
+10,600000,90
+20,800000,100
